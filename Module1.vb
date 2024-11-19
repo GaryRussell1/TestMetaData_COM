@@ -18,12 +18,6 @@
         strStoreLastMarketName = Bx.marketName
         Bx.openFirstQuickPickMarket()
         Threading.Thread.Sleep(2000)
-        Dim strList As New List(Of String)
-        Dim strList2 As New List(Of String)
-        Dim strList3 As New List(Of String)
-        Dim strList4 As New List(Of String)
-        Dim storePrices As New Dictionary(Of String, Double)
-        Dim storeForecast As New Dictionary(Of String, Double)
         Do While flagKeepGoing
             strStoreMarketName = Bx.marketName
             Console.WriteLine(strStoreMarketName)
@@ -48,27 +42,6 @@
                         Continue For
                     End If
                     Console.WriteLine($"Horse: {_meta.selection}, Saddlecloth: {_meta.saddleCloth},  Jockey: {_meta.jockey}, Trainer: {_meta.trainer}, Owner: {_meta.owner}, Age/weight: {_meta.ageWeight}, Jockey claim: {_meta.jockeyClaim}, Bred: {_meta.bred}, Dam: {_meta.dam}, Sire: {_meta.sire}, DamSire: {_meta.damSire}, Colour/Sex: {_meta.colourSex}, Form: {_meta.form}, Official rating: {_meta.officialRating}, Forecast price: {_meta.forecastPrice}, Days since last run: {_meta.daysSinceLastRun}, Wearing: {_meta.wearing}, Stall draw: {_meta.stallDraw}")
-                    _str = $"{strStoreMarketName}|{item.Selection}|{_meta.foreCastPrice}|{_meta.form}|{_meta.daysSinceLastRun}|{_meta.officialRating}"
-                    If _meta.form <> "" And CInt(_meta.daysSinceLastRun) <= 66 Then
-                        strList.Add(_str)
-                    Else
-                        strList4.Add($"{_str.Replace("|", ",")},Empty Form/Days > 66")
-                    End If
-                    If Not storePrices.ContainsKey(item.Selection) Then
-                        storePrices.Add(item.Selection, item.backOdds1)
-                    End If
-                    If Not storeForecast.ContainsKey(item.Selection) Then
-                        storeForecast.Add(item.Selection, _meta.foreCastPrice)
-                    End If
-                    Dim _fp As Double
-                    If IsNumeric(_meta.foreCastPrice) Then
-                        _fp = Trim(_meta.foreCastPrice)
-                        If item.backOdds1 >= CDbl(_fp) * 2 And CDbl(_fp) < 11 Then
-                            strList2.Add($"{strStoreMarketName}, {item.Selection}, {_meta.form}, {_meta.foreCastPrice}, {item.backOdds1}, {_meta.daysSinceLastRun}")
-                        End If
-                    Else
-                        strList4.Add($"{_str.Replace("|", ",")},Forecast Price non numeric")
-                    End If
                 Next
             Catch ex As System.Exception
                 Console.WriteLine("ERROR: In price Loop")
